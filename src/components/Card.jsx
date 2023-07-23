@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 const Card = ({ country }) => {
   return (
     <div className=" mx-auto rounded-md shadow-md  dark:bg-dark-blue overflow-hidden w-64 sm:w-52 ">
@@ -33,7 +31,4 @@ const Card = ({ country }) => {
   );
 };
 
-Card.PropTypes = {
-  country: PropTypes.array.isRequired,
-};
 export default Card;

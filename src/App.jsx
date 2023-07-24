@@ -1,9 +1,9 @@
 import "./index.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Header from "./layout/Header";
-import SearchBar from "./components/SearchBar";
-import data from "./data/data.json";
-import Countries from "./components/Countries";
+import ShowCountries from "./layout/ShowCountries";
+import CountryDetails from "./context/CountryDetails";
+import ShowCountryDetails from "./layout/ShowCountryDetails";
 
 function App() {
   const [mode, setMode] = useState("dark");
@@ -11,55 +11,23 @@ function App() {
     setMode((curr) => (curr === "dark" ? "light" : "dark"));
   };
 
-  const [filterRegion, setFilterRegion] = useState("Filter By Region");
-  const [filteredCountry, setFilteredCountry] = useState([]);
-  const [searchCountry, setSearchCountry] = useState("");
-  const [searchTimeOut, setSearchTimeOut] = useState(null);
+  const [pickedCountry, setPickedCountry] = useState({
+    details: {},
+    layoutIndex: 0,
+  });
 
-  useEffect(() => {
-    const filteredCountryFromRegion = data?.filter(
-      (data) =>
-        data.region.toLocaleLowerCase() === filterRegion?.toLocaleLowerCase()
-    );
+  const arrayLayouts = [
+    <ShowCountries key={0} />,
+    <ShowCountryDetails key={1} country={pickedCountry.details} />,
+  ];
 
-    setFilteredCountry(filteredCountryFromRegion);
-  }, [filterRegion]);
-
-  useEffect(() => {
-    if (searchTimeOut) {
-      clearTimeout(searchTimeOut);
-    }
-
-    const newTimeOut = setTimeout(() => {
-      const filteredCountryFromSearch = data?.filter((data) => {
-        return data?.name
-          .toLocaleLowerCase()
-          .includes(searchCountry.toLowerCase());
-      });
-
-      console.log(filteredCountryFromSearch, "search");
-      setFilteredCountry(filteredCountryFromSearch);
-    }, 500);
-
-    if (searchCountry === "") setSearchTimeOut(data);
-    setSearchTimeOut(newTimeOut);
-  }, [searchCountry, searchTimeOut]);
-
-  console.log(filteredCountry, searchCountry);
+  console.log(pickedCountry);
   return (
     <div className="h-full dark:bg-dark-blue">
       <Header mode={mode} toggleMode={toggleMode} />
-      <main className="h-full bg-very-light-gray dark:bg-very-dark-blue-bg   mt-1 pt-6  mx-auto   ">
-        <SearchBar
-          setFilterRegion={setFilterRegion}
-          filterRegion={filterRegion}
-          setSearchCountry={setSearchCountry}
-          searchCountry={searchCountry}
-        />
-        <Countries
-          countries={filteredCountry?.length !== 0 ? filteredCountry : data}
-        />
-      </main>
+      <CountryDetails.Provider value={{ pickedCountry, setPickedCountry }}>
+        {arrayLayouts[pickedCountry.layoutIndex]}
+      </CountryDetails.Provider>
     </div>
   );
 }

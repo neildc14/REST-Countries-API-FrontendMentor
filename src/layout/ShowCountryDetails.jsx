@@ -10,7 +10,7 @@ const ShowCountryDetails = ({ country }) => {
     setPickedCountry({ details: {}, layoutIndex: 0 });
   };
   return (
-    <main className="h-full bg-very-light-gray dark:bg-very-dark-blue-bg   mt-1 pt-6  mx-auto   ">
+    <main className="h-full md:h-screen bg-very-light-gray dark:bg-very-dark-blue-bg   mt-1 pt-6  mx-auto   ">
       <div className="container mx-auto mt-6 lg:mt-12 px-4 xl:px-0 ">
         <button
           className="px-6 py-2 inline-flex items-center gap-2 shadow-md dark:shadow-lg font-semibold dark:text-very-light-gray"
@@ -19,16 +19,21 @@ const ShowCountryDetails = ({ country }) => {
           <BiArrowBack size={20} color="white" />
           Back
         </button>
-        <section className="mt-14 flex  flex-wrap flex-col md:flex-row justify-between gap-10 lg:gap-14">
-          <img
-            src={country?.flags?.png}
-            className="w-full h-44 shadow-md"
-            alt="country flag"
-          />
+        <section className="mt-14 flex  flex-col md:flex-row justify-between md:justify-center gap-10 lg:gap-14">
           <div>
-            <div>
-              <div className="mt-2 dark:text-very-light-gray">
-                <h2 className="font-bold font-lg pb-2">{country.name}</h2>
+            <img
+              src={country?.flags?.png}
+              className="w-full h-44 md:h-52  shadow-md "
+              alt="country flag"
+            />
+          </div>
+
+          <div>
+            <div className="w-full md:flex flex-row justify-between gap-10">
+              <div className="mt-2 md:mt-0 dark:text-very-light-gray">
+                <h2 className="font-bold font-lg pb-2 md:text-2xl">
+                  {country.name}
+                </h2>
                 <p className="font-base">
                   Native Name:{" "}
                   <span className="font-base text-dark-gray font-thin">
